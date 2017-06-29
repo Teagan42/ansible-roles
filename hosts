@@ -45,3 +45,6 @@ apache.int.teagantotally.rocks
 10.0.10.125
 media.int.teagantotally.rocks
 
+[ldapservers]
+10.0.10.126
+ldap.int.teagantotally.rocks

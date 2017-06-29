@@ -1,0 +1,6 @@
+- name: ldap configs
+  hosts: ldapservers
+  become: True
+  roles:
+    - openldap_server
+
