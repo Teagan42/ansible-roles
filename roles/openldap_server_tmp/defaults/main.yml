@@ -1,0 +1,15 @@
+---
+
+#The domain prefix for ldap
+openldap_server_domain_name: int.teagantotally.rocks
+
+#The self signed ssl parameters
+openldap_server_country: US
+openldap_server_state: colorado
+openldap_server_location: denver
+openldap_server_organization: Home
+
+openldap_server_enable_ssl: true
+
+#The ldif file
+openldap_server_ldif: domain.ldif
