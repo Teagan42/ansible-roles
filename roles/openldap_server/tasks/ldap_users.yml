@@ -34,24 +34,25 @@
       gidNumber: 1042
     state: present
 
-  # - name: User Teagan
-  #ldap_entry:
-  #  bind_dn: "{{ openldap_server_bind_dn }}"
-  #  bind_pw: "{{ openldap_server_rootpw }}"
-  #  dn: "uid=tglenn,ou=users,{{ openldap_server_dc }}"
-  #  objectClass:
-  #    - top
-  #    - posixAccount
-  #    - shadowAccount
-  #    - account
-  #  attributes:
-  #    gidNumber: 1042
-  #    uidNumber: 1042
-  #    homeDirectory: /home/tglenn/
-  #    loginShell: /bin/bash
-  #    gecos: Teagan Glenn
-  #    userPassword: "{{ tglenn_pw }}"
-  #  state: present
+- name: User Teagan
+  ldap_entry:
+    bind_dn: "{{ openldap_server_bind_dn }}"
+    bind_pw: "{{ openldap_server_rootpw }}"
+    dn: "uid=tglenn,ou=users,{{ openldap_server_dc }}"
+    objectClass:
+      - top
+      - posixAccount
+      - shadowAccount
+      - account
+    attributes:
+      gidNumber: 1042
+      uidNumber: 1042
+      homeDirectory: /home/tglenn/
+      loginShell: /bin/bash
+      gecos: Teagan Glenn
+      userPassword: "{{ tglenn_pw }}"
+      cn: Teagan Glenn
+    state: present
 
 - name: User Alan
   ldap_entry:
@@ -71,4 +72,38 @@
       gecos: Alan Janis
       userPassword: "{{ ajanis_pw }}"
       cn: Alan Janis
+    state: present
+
+- name: Media Group
+  ldap_entry:
+    bind_dn: "{{ openldap_server_bind_dn }}"
+    bind_pw: "{{ openldap_server_rootpw }}"
+    dn: "cn=media,ou=groups,{{ openldap_server_dc }}"
+    objectClass:
+      - posixGroup
+      - top
+    attributes:
+      description: "Media group"
+      gidNumber: 2000
+      memberUid: ajanis
+      memberUid: tglenn
+    state: present
+
+- name: User Media
+  ldap_entry:
+    bind_dn: "{{ openldap_server_bind_dn }}"
+    bind_pw: "{{ openldap_server_rootpw }}"
+    dn: "uid=media,ou=users,{{ openldap_server_dc }}"
+    objectClass:
+      - top
+      - posixAccount
+      - shadowAccount
+      - account
+    attributes:
+      gidNumber: 2000
+      uidNumber: 2000
+      homeDirectory: /home/media/
+      loginShell: /bin/bash
+      gecos: Media User
+      cn: Media User
     state: present
