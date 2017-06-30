@@ -1,0 +1,19 @@
+---
+- name: Start radarr docker container
+  docker:
+    name: "{{ docker_radarr_container_name }}"
+    image: linuxserver/radarr
+    env:
+      PUID: '0'
+      PGID: '0'
+      TZ: 'America/Denver'
+    volumes:
+      - '{{ mediaserver_mounted_directory }}/configs/{{ docker_radarr_container_name }}:/config'
+      - '{{ mediaserver_mounted_directory }}/{{ usenet_complete_download_directory}}:/downloads'
+      - '{{ mediaserver_mounted_directory }}/movies:/movies'
+    ports: '0.0.0.0:8183:7878'
+    state: 'started'
+    restart_policy: 'always'
+    log_driver: 'syslog'
+    log_opt:
+      tag: "{{ docker_radarr_container_name }}"

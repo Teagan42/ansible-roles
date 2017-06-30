@@ -1,0 +1,19 @@
+---
+- name: Start sonarr docker container
+  docker:
+    name: "{{ docker_sonarr_container_name }}"
+    image: linuxserver/sonarr
+    env:
+      PUID: '0'
+      PGID: '0'
+    volumes:
+      - '/dev/rtc:/dev/rtc:ro'
+      - '{{ mediaserver_mounted_directory }}/configs/{{ docker_sonarr_container_name }}:/config'
+      - '{{ mediaserver_mounted_directory }}/{{ usenet_complete_download_directory}}:/downloads'
+      - '{{ mediaserver_mounted_directory }}/tv-shows:/tv'
+    ports: '0.0.0.0:8180:8989'
+    state: 'started'
+    restart_policy: 'always'
+    log_driver: 'syslog'
+    log_opt:
+      tag: "{{ docker_sonarr_container_name }}"

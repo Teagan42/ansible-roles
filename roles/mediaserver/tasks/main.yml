@@ -1,0 +1,51 @@
+#- name: make media mount directory
+#  file:
+#    name: "{{ mediaserver_mounted_directory }}"
+#    state: directory
+#
+#- name: mount media directory
+#  mount:
+#    path: "{{ mediaserver_mounted_directory }}"
+#    src: "{{ media_remote_directory }}"
+#    fstype: "nfs"
+#    opts: rw,async
+#    state: present
+
+- name: make incomplete downloads directory
+  file:
+    name: "{{ mediaserver_mounted_directory }}/{{ usenet_incomplete_download_directory }}"
+    state: directory
+
+- name: make complete downloads directory
+  file:
+    name: "{ mediaserver_mounted_directory }}/{{ usenet_complete_download_directory }}"
+    state: directory
+
+- name: make watch directory
+  file:
+    name: "{ mediaserver_mounted_directory }}/{{ usenet_watch_directory }}"
+    state: directory
+
+- name: install docker
+  apt: name=docker.io update_cache=yes state=latest
+
+- name: install python-docker
+  apt: name=python-docker update_cache=yes state=latest
+
+- name: install python3-pip
+  apt: name=python3-pip update_cache=yes state=latest
+
+- name: install docker-compose
+  pip: name=docker-compose executable=/usr/bin/pip3
+
+- name: install mkvtoolnix
+  apt: name=mkvtoolnix update_cache=yes state=latest
+
+  #- name: install ffmpeg
+  #apt: name=ffmpeg update_cache=yes state=latest
+
+- include: sonarr.yml
+- include: sabnzbd.yml
+- include: radarr.yml
+# - include: couchpotato.yml
+# - include: plex.yml

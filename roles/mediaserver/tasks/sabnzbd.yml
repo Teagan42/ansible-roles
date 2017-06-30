@@ -1,0 +1,19 @@
+- name: 'Start sabnzbd docker container'
+  docker:
+    name: "{{ docker_sabnzbd_container_name }}"
+    image: linuxserver/sabnzbd
+    env:
+      PUID: '0'
+      PGID: '0'
+      TZ: 'America/Denver'
+    volumes:
+      - '{{ mediaserver_mounted_directory }}/configs/{{ docker_sabnzbd_container_name }}:/config'
+      - '{{ mediaserver_mounted_directory }}/{{ usenet_incomplete_download_directory}}:/incomplete-downloads'
+      - '{{ mediaserver_mounted_directory }}/{{ usenet_complete_download_directory}}:/downloads'
+      - '{{ mediaserver_mounted_directory }}/{{ usenet_watch_directory}}:/watch'
+    ports: '0.0.0.0:8181:8080'
+    state: 'started'
+    restart_policy: 'always'
+    log_driver: 'syslog'
+    log_opt:
+      tag: "{{ docker_sabnzbd_container_name }}"

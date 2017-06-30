@@ -1,0 +1,19 @@
+- name: 'Start couchpotato docker container'
+  docker:
+    name: "{{ docker_couchpotato_container_name }}"
+    image: linuxserver/couchpotato
+    env:
+      PUID: '0'
+      PGID: '0'
+      TZ: 'America/Denver'
+    volumes:
+      - '{{ mediaserver_mounted_directory }}/configs/{{ docker_couchpotato_container_name }}:/config'
+      - '{{ mediaserver_mounted_directory }}/{{ usenet_incomplete_download_directory}}:{{ mediaserver_mounted_directory }}/{{ usenet_incomplete_download_directory}}'
+      - '{{ mediaserver_mounted_directory }}/{{ usenet_complete_download_directory}}/movies:{{ mediaserver_mounted_directory }}/{{ usenet_complete_download_directory}}/movies'
+      - '{{ mediaserver_mounted_directory }}/movies:{{ mediaserver_mounted_directory }}/movies'
+    ports: '0.0.0.0:8182:5050'
+    state: 'started'
+    restart_policy: 'always'
+    log_driver: 'syslog'
+    log_opt:
+      tag: "{{ docker_couchpotato_container_name }}"

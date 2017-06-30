@@ -1,0 +1,16 @@
+services:
+  sabnzbd:
+    svc_port: 8181
+    alias: sab
+  sonarr:
+    svc_port: 8180
+    alias: son
+  radarr:
+    svc_port: 8183
+    alias: rad
+#  couchpotato:
+#    svc_port: 8182 
+#    alias: couch
+#  plex:
+#    svc_port: 32400
+#    alias: plex

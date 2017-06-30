@@ -42,8 +42,8 @@ deepthought.int.teagantotallyr.rocks
 apache.int.teagantotally.rocks
 
 [mediaservers]
-10.0.10.125
-media.int.teagantotally.rocks
+10.0.10.108
+deepthought.int.teagantotally.rocks
 
 [ldapservers]
 10.0.10.126
