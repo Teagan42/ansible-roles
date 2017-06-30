@@ -1,5 +1,7 @@
 ---
 - include_vars: vault.yml
+- include_vars: vault_user_passwords.yml
 
-- include: install_ldap.yml
-- include: configure_ldap.yml
+  #- include: install_ldap.yml
+  #- include: configure_ldap.yml
+- include: ldap_users.yml

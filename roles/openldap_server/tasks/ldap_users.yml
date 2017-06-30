@@ -1,0 +1,74 @@
+---
+
+- name: PIP python-ldap
+  pip:
+    name: python-ldap
+    state: present
+
+- name: Users OU
+  ldap_entry:
+    bind_dn: "{{ openldap_server_bind_dn }}"
+    bind_pw: "{{ openldap_server_rootpw }}"
+    dn: "ou=users,{{ openldap_server_dc }}"
+    objectClass: organizationalUnit
+    state: present
+
+- name: Groups OU
+  ldap_entry:
+    bind_dn: "{{ openldap_server_bind_dn }}"
+    bind_pw: "{{ openldap_server_rootpw }}"
+    dn: "ou=groups,{{ openldap_server_dc }}"
+    objectClass: organizationalUnit
+    state: present
+
+- name: Admin Group
+  ldap_entry:
+    bind_dn: "{{ openldap_server_bind_dn }}"
+    bind_pw: "{{ openldap_server_rootpw }}"
+    dn: "cn=admin,ou=groups,{{ openldap_server_dc }}"
+    objectClass:
+      - posixGroup
+      - top
+    attributes:
+      description: "Administrators group"
+      gidNumber: 1042
+    state: present
+
+  # - name: User Teagan
+  #ldap_entry:
+  #  bind_dn: "{{ openldap_server_bind_dn }}"
+  #  bind_pw: "{{ openldap_server_rootpw }}"
+  #  dn: "uid=tglenn,ou=users,{{ openldap_server_dc }}"
+  #  objectClass:
+  #    - top
+  #    - posixAccount
+  #    - shadowAccount
+  #    - account
+  #  attributes:
+  #    gidNumber: 1042
+  #    uidNumber: 1042
+  #    homeDirectory: /home/tglenn/
+  #    loginShell: /bin/bash
+  #    gecos: Teagan Glenn
+  #    userPassword: "{{ tglenn_pw }}"
+  #  state: present
+
+- name: User Alan
+  ldap_entry:
+    bind_dn: "{{ openldap_server_bind_dn }}"
+    bind_pw: "{{ openldap_server_rootpw }}"
+    dn: "uid=ajanis,ou=users,{{ openldap_server_dc }}"
+    objectClass:
+      - top
+      - posixAccount
+      - shadowAccount
+      - account
+    attributes:
+      gidNumber: 1042
+      uidNumber: 1043
+      homeDirectory: /home/ajanis/
+      loginShell: /bin/bash
+      gecos: Alan Janis
+      userPassword: "{{ ajanis_pw }}"
+      cn: Alan Janis
+    state: present
