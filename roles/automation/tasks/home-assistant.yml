@@ -1,0 +1,27 @@
+- name: Update home-assistant configuration'
+  git:
+    repo: /data/git/ha-config.git
+    dest: '{{ automation_mounted_directory }}/configs/{{ docker_ha_container_name}}'
+    version: development
+    force: yes
+
+- name: 'Start home-assistant docker container'
+  docker:
+    name: "{{ docker_ha_container_name }}"
+    image: homeassistant/home-assistant
+    net: host
+    env:
+      PUID: '0'
+      PGID: '0'
+      VERSION: 'latest'
+    volumes:
+      - '{{ automation_mounted_directory }}/configs/{{ docker_ha_container_name }}:/config'
+      - '/etc/localtime:/etc/localtime:ro'
+    state: 'started'
+    restart_policy: 'always'
+    log_driver: 'syslog'
+    log_opt:
+      tag: "{{ docker_ha_container_name }}"
+
+- name: Install OpenCV in Docker Container
+  command: 'docker exec {{ docker_ha_container_name}} /bin/bash -l -c "pip3 install opencv-python"'

@@ -1,0 +1,8 @@
+- name: Automation Configs
+  hosts: automationservers
+  user: tglenn
+  become: True
+  roles:
+    - default
+    - docker
+    - automation

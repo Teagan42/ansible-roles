@@ -48,3 +48,7 @@ deepthought.int.teagantotally.rocks
 [ldapservers]
 10.0.10.126
 ldap.int.teagantotally.rocks
+
+[automationservers]
+10.0.10.108
+deepthought.int.teagantotally.rocks

@@ -1,0 +1,5 @@
+---
+
+docker_ha_container_name: home-assistant
+
+automation_mounted_directory: /data/automation/

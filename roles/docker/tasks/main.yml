@@ -1,0 +1,25 @@
+---
+
+- name: Install Docker
+  apt:
+    name: docker.io
+    update_cache: yes
+    state: latest
+
+- name: Install Python Docker
+  apt:
+    name: python-docker
+    update_cache: yes
+    state: latest
+
+- name: Install PIP3
+  apt:
+    name: python3-pip
+    update_cache: yes
+    state: latest
+
+- name: Install Docker Compose
+  pip:
+    name: docker-compose
+    executable: /usr/bin/pip3
+

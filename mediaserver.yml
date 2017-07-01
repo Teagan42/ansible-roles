@@ -4,4 +4,5 @@
   become: True
   roles:
     - default
+    - docker
     - mediaserver
