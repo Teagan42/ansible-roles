@@ -1,3 +1,7 @@
+---
+
+- include_vars: vault_plex.yml
+
 #- name: make media mount directory
 #  file:
 #    name: "{{ mediaserver_mounted_directory }}"
@@ -47,5 +51,4 @@
 - include: sonarr.yml
 - include: sabnzbd.yml
 - include: radarr.yml
-# - include: couchpotato.yml
-# - include: plex.yml
+- include: plex.yml

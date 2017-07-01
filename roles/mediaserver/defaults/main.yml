@@ -1,13 +1,14 @@
 ---
 
-# docker_couchpotato_container_name: 'couchpotato'
 docker_sonarr_container_name: 'sonarr'
 docker_radarr_container_name: 'radarr'
 docker_sabnzbd_container_name: 'sabnzbd'
-# docker_plex_container_name: 'plex'
+docker_plex_container_name: 'plex'
 
 mediaserver_mounted_directory: '/data/media'
 media_remote_directory: 'deepthought.int.teagantotally.rocks:/data/media'
 usenet_incomplete_download_directory: 'downloads/usenet/incomplete'
 usenet_complete_download_directory: 'downloads/usenet/complete'
 usenet_watch_directory: 'downloads/usenet/watch'
+
+plex_token: '{{ vault_plex_token }}'
