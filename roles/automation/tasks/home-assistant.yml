@@ -8,7 +8,7 @@
 - name: 'Start home-assistant docker container'
   docker:
     name: "{{ docker_ha_container_name }}"
-    image: homeassistant/home-assistant
+    image: homeassistant/home-assistant:latest
     net: host
     env:
       PUID: '0'
