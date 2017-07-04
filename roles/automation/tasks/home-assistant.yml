@@ -25,3 +25,6 @@
 
 - name: Install OpenCV in Docker Container
   command: 'docker exec {{ docker_ha_container_name}} /bin/bash -l -c "pip3 install opencv-python"'
+  notify:
+    - Restart Home-Assistant
+

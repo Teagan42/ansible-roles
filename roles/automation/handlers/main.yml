@@ -1,0 +1,6 @@
+- name: Restart Home-Assistant
+  docker:
+    name: '{{ docker_ha_container_name }}'
+    image: homeassistant/home-assistant:latest
+    state: restarted
+
