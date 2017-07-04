@@ -1,0 +1,2 @@
+/-  /etc/auto.direct -rw,hard,bg,intr,tcp,vers=4,acregmin=3,acregmax=10,acdirmin=3,acdirmax=10,nocto,rsize=32768,wsize=32768,--timeout=1800
+{{ nfs_homedir_mount }} /etc/auto.home -rw,hard,bg,intr,tcp,vers=4,--timeout=240

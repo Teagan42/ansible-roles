@@ -3,6 +3,6 @@
   user: tglenn
   become: True
   roles:
-    - default
+    - nfs
     - docker
     - mediaserver

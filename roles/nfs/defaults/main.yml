@@ -1,0 +1,15 @@
+nfs_server: ldap.int.teagantotally.rocks
+
+nfs_exports:
+  - nfs_export_directory: /data/media
+  - nfs_export_directory: /data/backups
+    nfs_client_network: 10.0.10.0/8
+
+nfs_homedir_root: /data/media/ldap
+nfs_homedir_mount: /home/ldap
+
+nfs_data_mounts:
+  - d_mount: /data/media
+    s_mount: "{{ nfs_server }}":/data/media
+  - d_mount: /data/backups
+    s_mount: "{{ nfs_server }}":/data/backups

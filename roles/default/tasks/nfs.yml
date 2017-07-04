@@ -1,6 +1,0 @@
----
-
-- name: NFS Client
-  apt:
-    name: nfs-common 
-    state: present

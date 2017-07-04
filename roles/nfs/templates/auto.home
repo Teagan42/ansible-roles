@@ -1,0 +1,1 @@
+*         -rw,intr    {{ nfs_server }}:{{ nfs_homedir_mount }}/&

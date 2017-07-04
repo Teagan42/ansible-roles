@@ -1,0 +1,56 @@
+---
+
+- name: Install nfs-common package
+  apt:
+    name: nfs-common 
+    state: latest
+    update_cache: yes
+
+- name: AutoFS package
+  apt:
+    name: autofs
+    state: latest
+    update_cache: yes
+
+- name: Configure nfs-common
+  copy:
+    src: files/nfs-common
+    dest: /etc/default/nfs-common
+
+- name: Ensure rpcbind is running
+  service:
+    name: rpcbind
+    state: started
+    enabled: yes
+ 
+- name: Ensure "{{ item.d_mount }}" directory exists
+  file:
+    path: "{{ item.d_mount }}"
+    state: directory
+    with_items: "{{ nfs_data_mounts }}"
+
+- name: Create autofs home directory mountpoint
+  file:
+    path: /home/ldap
+    state: directory
+
+- name : Aetup auto.master
+  copy:
+    src: auto.master
+    dest: /etc/auto.master
+  notify:
+    - restart autofs
+
+- name : Setup auto.direct
+  template:
+    src: auto.direct
+    dest: /etc/auto.direct
+  notify:
+    - restart autofs
+
+- name: Setup auto.home
+  copy:
+    src: auto.home
+    dest: /etc/auto.home
+  notify:
+    - restart autofs

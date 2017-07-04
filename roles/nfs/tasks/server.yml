@@ -1,0 +1,18 @@
+- name : Install nfs-kernel-server package
+  apt:
+    name: nfs-kernel-server
+    state: latest
+    update_cache: yes
+
+- name: Add exports
+  template:
+    src: exports
+    dest: /etc/exports
+  notify: restart nfs-kernel-server
+
+
+- name: Configure user id mappping
+  copy:
+    src: idmapd.conf
+    dest: /etc/idmapd.conf
+  notify: restart nfs-kernel-server

@@ -1,0 +1,9 @@
+- name: restart nfs-kernel-server
+  service:
+    name: nfs-kernel-server
+    state: restarted
+
+- name: restart autofs
+  service:
+    name: autofs
+    state: restarted
