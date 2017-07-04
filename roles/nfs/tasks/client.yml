@@ -12,10 +12,10 @@
     state: latest
     update_cache: yes
 
-- name: Configure nfs-common
-  copy:
-    src: files/nfs-common
-    dest: /etc/default/nfs-common
+  #- name: Configure nfs-common
+  #  copy:
+  #    src: files/nfs-common
+  #    dest: /etc/default/nfs-common
 
 - name: Ensure rpcbind is running
   service:
@@ -23,19 +23,19 @@
     state: started
     enabled: yes
  
-- name: Ensure "{{ item.d_mount }}" directory exists
+- name: Ensure nfs directories exists
   file:
     path: "{{ item.d_mount }}"
     state: directory
-    with_items: "{{ nfs_data_mounts }}"
+  with_items: "{{ nfs_data_mounts }}"
 
 - name: Create autofs home directory mountpoint
   file:
     path: /home/ldap
     state: directory
 
-- name : Aetup auto.master
-  copy:
+- name : Setup auto.master
+  template:
     src: auto.master
     dest: /etc/auto.master
   notify:
@@ -49,7 +49,7 @@
     - restart autofs
 
 - name: Setup auto.home
-  copy:
+  template:
     src: auto.home
     dest: /etc/auto.home
   notify:

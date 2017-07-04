@@ -1,0 +1,5 @@
+nfs_data_mounts:
+  - d_mount: /data/media
+    s_mount: "{{ nfs_server }}:/data/media"
+  - d_mount: /data/backups
+    s_mount: "{{ nfs_server }}:/data/backups"
