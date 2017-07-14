@@ -6,3 +6,4 @@
     state: directory
 
 - include: home-assistant.yml
+- include: ha-triggers.yml

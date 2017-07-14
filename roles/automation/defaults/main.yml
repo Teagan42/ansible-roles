@@ -1,5 +1,6 @@
 ---
 
 docker_ha_container_name: home-assistant
+docker_appdaemon_container_name: ha-triggers
 
 automation_mounted_directory: /data/automation/
