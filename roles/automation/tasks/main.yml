@@ -7,4 +7,5 @@
 
 - include: home-assistant.yml
 - include: ha-triggers.yml
-- include: tts.yaml
+- include: tts.yml
+- include: stt.yml

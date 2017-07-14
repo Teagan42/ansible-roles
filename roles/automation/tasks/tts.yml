@@ -10,7 +10,7 @@
       VERSION: 'latest'
     volumes:
       - '/etc/localtime:/etc/localtime:ro'
-    state: 'restarted'
+    state: 'started'
     restart_policy: 'always'
     log_driver: 'syslog'
     log_opt:
