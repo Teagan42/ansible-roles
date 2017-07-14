@@ -1,0 +1,18 @@
+- name: 'Start tts docker container'
+  docker:
+    name: "{{ docker_tts_container_name }}"
+    image: fic2/fatts:latest
+    ports:
+      - '0.0.0.0:59125:59125'
+    env:
+      PUID: '0'
+      PGID: '0'
+      VERSION: 'latest'
+    volumes:
+      - '/etc/localtime:/etc/localtime:ro'
+    state: 'restarted'
+    restart_policy: 'always'
+    log_driver: 'syslog'
+    log_opt:
+      tag: "{{ docker_tts_container_name }}"
+
