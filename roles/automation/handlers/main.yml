@@ -4,3 +4,5 @@
     image: homeassistant/home-assistant:latest
     state: restarted
 
+- name: Start STT
+  command: 'docker exec {{ docker_stt_container_name }} /bin/bash -l -c "/opt/start.sh -y /opt/models/{{ stt_model_name }}"'

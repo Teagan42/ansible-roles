@@ -3,5 +3,8 @@
 docker_ha_container_name: home-assistant
 docker_appdaemon_container_name: ha-triggers
 docker_tts_container_name: tts
+docker_stt_container_name: stt
 
 automation_mounted_directory: /data/automation/
+
+stt_model_name: 'sample_english_nnet2.yaml'

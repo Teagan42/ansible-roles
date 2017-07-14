@@ -1,0 +1,21 @@
+- name: 'Start stt docker container'
+  docker:
+    name: "{{ docker_stt_container_name }}"
+    image: jcsilva/docker-kaldi-gstreamer-server:latest
+    ports:
+      - '0.0.0.0:5051:80'
+    env:
+      PUID: '0'
+      PGID: '0'
+      VERSION: 'latest'
+    volumes:
+      - '{{ automation_mounted_directory }}/configs/{{ docker_stt_container_name }}:/opt/models'
+      - '/etc/localtime:/etc/localtime:ro'
+    state: 'started'
+    restart_policy: 'always'
+    log_driver: 'syslog'
+    log_opt:
+      tag: "{{ docker_stt_container_name }}"
+  notify:
+    - Start STT
+
