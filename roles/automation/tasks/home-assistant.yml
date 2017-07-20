@@ -9,7 +9,8 @@
   docker:
     name: "{{ docker_ha_container_name }}"
     image: homeassistant/home-assistant:latest
-    net: host
+    ports:
+      - '0.0.0.0:8123:8123'
     env:
       PUID: '0'
       PGID: '0'
