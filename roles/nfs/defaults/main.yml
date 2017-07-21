@@ -1,10 +1,3 @@
-nfs_server: deepthought.int.teagantotally.rocks
-
-nfs_exports:
-  - nfs_export_directory: /data/media
-  - nfs_export_directory: /data/backups
-    nfs_client_network: 10.0.10.0/8
-
-nfs_homedir_root: /data/ldap
-nfs_homedir_mount: /home/ldap
-
+---
+nfs_server_domain_name: deepthought.int.teagantotally.rocks
+nfs_server_ip: 10.0.10.108

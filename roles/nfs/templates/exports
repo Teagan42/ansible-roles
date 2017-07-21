@@ -1,2 +1,4 @@
-{{ nfs_export_directory }}       {{ nfs_client_network }}(rw,fsid=0,insecure,no_subtree_check,async)
-
+{{ nfs_homedir_export}}  *(rw,sync,no_root_squash,no_subtree_check)
+{% for item in nfs_mounts %}
+{{ nfs_mounts[item].nfs_export }}       *(rw,sync,no_root_squash,no_subtree_check)
+{% endfor %}

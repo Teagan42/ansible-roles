@@ -1,0 +1,28 @@
+- name : install nfs-kernel-server package
+  apt:
+    name: nfs-kernel-server
+    state: latest
+    update_cache: yes
+
+- name: Ensure data directories exist
+  file:
+    path: "{{ item.value.nfs_export }}"
+    state: directory
+  with_dict: "{{ nfs_mounts }}"
+
+- name: create autofs home directory export exists
+  file:
+    path: "{{nfs_homedir_export}}"
+    state: directory
+
+- name: add exports
+  template:
+    src: exports
+    dest: /etc/exports
+  notify: reload exports
+
+- name: configure user id mappping
+  copy:
+    src: idmapd.conf
+    dest: /etc/idmapd.conf
+  notify: restart nfs-kernel-server

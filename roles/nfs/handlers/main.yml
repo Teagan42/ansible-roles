@@ -7,3 +7,6 @@
   service:
     name: autofs
     state: restarted
+
+- name: reload exports
+  shell: "exportfs -ra"

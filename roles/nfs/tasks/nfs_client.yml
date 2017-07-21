@@ -1,0 +1,42 @@
+---
+- name: Add /etc/hosts entry for NFS server
+  lineinfile:
+    dest: /etc/hosts
+    state: present
+    line: "{{nfs_server_ip}} {{nfs_server_domain_name}}"
+
+- name : install nfs-common package
+  apt:
+    name: nfs-common
+    state: latest
+    update_cache: yes
+
+- name : autofs packages
+  apt:
+    name: autofs
+    state: latest
+    update_cache: yes
+
+- name: Enable IDMAPD
+  lineinfile:
+    dest: /etc/default/nfs-common
+    line: 'NEED_IDMAPD=yes'
+    state: present
+  notify: restart autofs
+
+- name: copy the supporting files
+  template: 
+    src: autofs 
+    dest: /etc/default/autofs 
+    mode: 0755
+  notify: 
+   - restart autofs
+
+- name: Ensure rpcbind is running
+  action: service name=rpcbind state=started enabled=yes
+
+- name: Ensure mount points exist
+  file:
+    path: "{{ item.value.client_mount }}"
+    state: directory
+  with_dict: "{{ nfs_mounts }}"

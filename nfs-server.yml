@@ -1,0 +1,9 @@
+- name: NFS server configs
+  hosts: nfsservers
+  remote_user: root
+  become: True
+  vars:
+    server: true
+  roles:
+   - common
+   - nfs

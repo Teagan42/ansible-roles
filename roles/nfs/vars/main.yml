@@ -1,5 +1,16 @@
-nfs_data_mounts:
-  - d_mount: /data/media
-    s_mount: "{{ nfs_server }}:/data/media"
-  - d_mount: /data/backups
-    s_mount: "{{ nfs_server }}:/data/backups"
+---
+
+nfs_homedir_export: "/data/ldap"
+client_homedir_mount: /home/ldap
+
+
+
+nfs_mounts:
+  media:
+    nfs_export: "/data/media"
+    client_network: 10.0.0.0/8
+    client_mount: "/nfs/media"
+  backups:
+    nfs_export: "/data/backups"
+    client_network: 10.0.0.0/8
+    client_mount: "/nfs/backups"

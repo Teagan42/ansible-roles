@@ -1,5 +1,9 @@
-- include: server.yml
-  tags: server
+---
+- include_vars: ../openldap/defaults/main.yml
+- include_vars: ../openldap/vars/ssh_users.yml
+- include_vars: ../openldap/vars/vault_user_passwords.yml
+- include_vars: ../openldap/vars/vault.yml
 
-- include: client.yml
-  tags: client
+- include: nfs_server.yml
+  when: server | bool
+- include: nfs_client.yml
