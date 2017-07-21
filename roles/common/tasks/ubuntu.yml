@@ -13,7 +13,7 @@
   apt:
     name: screen
     update_cache: yes
-        state: latest
+    state: latest
 
 - name: custom MOTD
   lineinfile:
