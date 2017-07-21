@@ -1,0 +1,11 @@
+- name: ldap server configs
+  hosts: ldapservers
+  remote_user: root
+  become: True
+  vars:
+    server: true
+  roles: 
+   - common
+   - openldap
+  
+

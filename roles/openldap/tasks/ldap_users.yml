@@ -1,0 +1,230 @@
+---
+
+- name: PIP python-ldap
+  pip:
+    executable: pip
+    name: python-ldap
+    state: present
+
+- name: PIP python expect
+  pip:
+    executable: pip
+    name: pexpect
+    state: present
+
+- name: Admin OU
+  ldap_entry:
+    bind_dn: "{{ openldap_server_bind_dn }}"
+    bind_pw: "{{ openldap_server_rootpw }}"
+    dn: "ou=admin,{{ openldap_server_dc }}"
+    objectClass: 
+      - top
+      - organizationalUnit
+    attributes:
+      ou: admin
+    state: present
+  notify: restart nscd
+
+- name: Automount OU
+  ldap_entry:
+    bind_dn: "{{ openldap_server_bind_dn }}"
+    bind_pw: "{{ openldap_server_rootpw }}"
+    dn: "ou=automount,ou=admin,{{ openldap_server_dc }}"
+    objectClass: 
+      - top
+      - organizationalUnit
+    attributes:
+      ou: automount
+    state: present
+  notify: restart nscd
+
+- name: auto.master OU
+  ldap_entry:
+    bind_dn: "{{ openldap_server_bind_dn }}"
+    bind_pw: "{{ openldap_server_rootpw }}"
+    dn: "ou=auto.master,ou=automount,ou=admin,{{ openldap_server_dc }}"
+    objectClass: 
+      - top
+      - automountMap
+    attributes:
+      ou: auto.master
+    state: present
+  notify: restart nscd
+
+- name: Home automount CN
+  ldap_entry:
+    bind_dn: "{{ openldap_server_bind_dn }}"
+    bind_pw: "{{ openldap_server_rootpw }}"
+    dn: "cn=/home,ou=auto.master,ou=automount,ou=admin,{{ openldap_server_dc }}"
+    objectClass: 
+      - top
+      - automount
+    attributes:
+      cn: /home
+      automountInformation: "ldap:ou=auto.home,ou=automount,ou=admin,{{ openldap_server_dc }} --timeout=60 --ghost"
+    state: present
+  notify: restart nscd
+
+- name: auto.home OU
+  ldap_entry:
+    bind_dn: "{{ openldap_server_bind_dn }}"
+    bind_pw: "{{ openldap_server_rootpw }}"
+    dn: "ou=auto.home,ou=automount,ou=admin,{{ openldap_server_dc }}"
+    objectClass: 
+      - top
+      - automountMap
+    attributes:
+      ou: auto.home
+    state: present
+  notify: restart nscd
+
+- name: User Directory CNs
+  ldap_entry:
+    bind_dn: "{{ openldap_server_bind_dn }}"
+    bind_pw: "{{ openldap_server_rootpw }}"
+    dn: "cn={{item.key}},ou=auto.home,ou=automount,ou=admin,{{ openldap_server_dc }}"
+    objectClass: 
+      - top
+      - automount
+    attributes:
+      cn: "{{item.key}}"
+      automountInformation: "-fstype=nfs,rw,hard,intr,nodev,exec,nosuid,rsize=8192,wsize=8192 {{nfs_server_ip}}:{{nfs_homedir_export}}/{{item.key}}"
+    state: present
+  notify: restart nscd
+  with_dict: "{{ssh_users}}"
+
+- name: Users OU
+  ldap_entry:
+    bind_dn: "{{ openldap_server_bind_dn }}"
+    bind_pw: "{{ openldap_server_rootpw }}"
+    dn: "ou=users,{{ openldap_server_dc }}"
+    objectClass: organizationalUnit
+    state: present
+  notify: restart nscd
+
+- name: Groups OU
+  ldap_entry:
+    bind_dn: "{{ openldap_server_bind_dn }}"
+    bind_pw: "{{ openldap_server_rootpw }}"
+    dn: "ou=groups,{{ openldap_server_dc }}"
+    objectClass: organizationalUnit
+    state: present
+  notify: restart nscd
+
+- name: Admin Group
+  ldap_entry:
+    bind_dn: "{{ openldap_server_bind_dn }}"
+    bind_pw: "{{ openldap_server_rootpw }}"
+    dn: "cn=admin,ou=groups,{{ openldap_server_dc }}"
+    objectClass:
+      - posixGroup
+      - top
+    attributes:
+      description: "Administrators group"
+      gidNumber: 1042
+    state: present
+  notify: restart nscd
+
+- name: Media Group
+  ldap_entry:
+    bind_dn: "{{ openldap_server_bind_dn }}"
+    bind_pw: "{{ openldap_server_rootpw }}"
+    dn: "cn=media,ou=groups,{{ openldap_server_dc }}"
+    objectClass:
+      - posixGroup
+      - top
+    attributes:
+      description: "Media group"
+      gidNumber: 2000
+      memberUid: ajanis
+      memberUid: tglenn
+    state: present
+  notify: restart nscd
+
+- name: "Set up SSH users"
+  ldap_entry:
+    bind_dn: "{{ openldap_server_bind_dn }}"
+    bind_pw: "{{ openldap_server_rootpw }}"
+    dn: "uid={{item.key}},ou=users,{{ openldap_server_dc }}"
+    objectClass:
+      - top
+      - posixAccount
+      - shadowAccount
+      - account
+    attributes:
+      gidNumber: "{{ item.value.gid }}"
+      uidNumber: "{{ item.value.uid }}"
+      homeDirectory: "/home/{{ item.key }}"
+      loginShell: /bin/bash
+      gecos: "{{ item.value.gecos }}"
+      userPassword: "{{ item.value.password }}"
+      cn: "{{ item.value.cn }}"
+    state: present
+  with_dict: "{{ssh_users}}"
+  tags:
+    - user_setup
+  notify: restart nscd
+
+- name: nfs automount CN
+  ldap_entry:
+    bind_dn: "{{ openldap_server_bind_dn }}"
+    bind_pw: "{{ openldap_server_rootpw }}"
+    dn: "cn=/nfs,ou=auto.master,ou=automount,ou=admin,{{ openldap_server_dc }}"
+    objectClass: 
+      - top
+      - automount
+    attributes:
+      cn: /nfs
+      automountInformation: "ldap:ou=auto.nfs,ou=automount,ou=admin,{{ openldap_server_dc }} --timeout=60 --ghost"
+    state: present
+  notify: restart nscd
+
+- name: auto.nfs OU
+  ldap_entry:
+    bind_dn: "{{ openldap_server_bind_dn }}"
+    bind_pw: "{{ openldap_server_rootpw }}"
+    dn: "ou=auto.nfs,ou=automount,ou=admin,{{ openldap_server_dc }}"
+    objectClass: 
+      - top
+      - automountMap
+    attributes:
+      ou: auto.nfs
+    state: present
+  notify: restart nscd
+
+- name: Data Directory CNs
+  ldap_entry:
+    bind_dn: "{{ openldap_server_bind_dn }}"
+    bind_pw: "{{ openldap_server_rootpw }}"
+    dn: "cn={{item.key}},ou=auto.nfs,ou=automount,ou=admin,{{ openldap_server_dc }}"
+    objectClass: 
+      - top
+      - automount
+    attributes:
+      cn: "{{item.key}}"
+      automountInformation: "-fstype=nfs,rw,hard,intr,nodev,exec,nosuid,rsize=8192,wsize=8192 {{nfs_server_ip}}:{{item.value.nfs_export}}"
+    state: present
+  with_dict: "{{nfs_mounts}}"
+  notify: restart nscd
+
+
+- name: copy ssh public keys
+  copy:
+    src: "keys/{{item.key}}.pub" 
+    dest: "/tmp/{{item.key}}.pub"
+  with_dict: "{{ssh_users}}"
+  ignore_errors: True
+
+- name: Add ssh public keys to LDAP
+  expect:
+    command: "ssh-ldap-pubkey add -u {{item.key}} /tmp/{{item.key}}.pub"
+    responses:
+      .*(?i)password.*: "{{item.value.password}}"
+  with_dict: "{{ssh_users}}"
+  ignore_errors: True
+  tags:
+    - user_setup
+  notify: restart nscd
+
+
+- meta: flush_handlers

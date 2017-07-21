@@ -1,0 +1,57 @@
+---
+
+#- name: home directory
+#  shell: "if [[ ! -d {{nfs_homedir_export}}/{{item.key}} ]]; then /sbin/mkhomedir_helper {{item.key}}; fi" 
+#  with_dict: "{{ssh_users}}"
+#  when: item.value.state == 'present'
+#  tags:
+#    - user_setup
+
+- name: home directory
+  file: 
+    path: "{{nfs_homedir_export}}/{{item.key}}" 
+    state: directory
+    owner: "{{item.key}}"
+    group: admin
+    mode: 0755
+  with_dict: "{{ssh_users}}"
+  when: item.value.state == 'present'
+  tags:
+    - user_setup
+  notify:
+    - restart autofs
+    - reload exports
+
+#- name: .ssh directory
+#  file: 
+#    path: "/home/{{item.key}}/.ssh" 
+#    state: directory
+#    owner: "{{item.key}}"
+#    group: admin
+#    mode: 0755
+#  with_dict: "{{ssh_users}}"
+#  when: item.value.state == 'present'
+#  tags:
+#    - user_setup
+
+
+#- name: ssh public keys
+#  assemble:
+#    src: files/keys
+#    remote_src: False
+#    dest: "/home/{{item.key}}/.ssh/authorized_keys"
+#    owner: "{{item.key}}"
+#    group: admin
+#    mode: 0644
+#  with_dict: "{{ssh_users}}"
+#  when: item.value.state == 'present'
+#  tags:
+#    - user_setup
+
+
+#- name: bash profile
+#  copy: src=profiles/{{item.key}}.profile dest=/home/{{item.key}}/.bash_profile owner={{item.key}} group=admin
+#  with_dict: "{{ssh_users}}"
+#  when: "item.value.state == 'present' and {{item.key}}_result == 'true'"
+#  tags:
+#    - user_setup

@@ -1,7 +1,0 @@
-- name: ldap configs
-  hosts: ldapservers
-  become: True
-  roles:
-    - default
-    - openldap_server
-

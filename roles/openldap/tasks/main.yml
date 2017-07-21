@@ -1,0 +1,14 @@
+---
+- include_vars: vault.yml
+- include_vars: vault_user_passwords.yml
+- include_vars: ssh_users.yml
+- include_vars: ../../nfs/defaults/main.yml
+- include_vars: ../../nfs/vars/main.yml
+
+- include: install_ldap.yml
+  when: server | bool
+- include: configure_ldap.yml
+  when: server | bool
+- include: ldap_client.yml
+- include: ldap_users.yml
+  when: server | bool

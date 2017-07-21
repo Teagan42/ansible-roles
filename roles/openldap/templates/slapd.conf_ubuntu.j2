@@ -2,6 +2,8 @@ include         /etc/ldap/schema/core.schema
 include         /etc/ldap/schema/cosine.schema
 include         /etc/ldap/schema/inetorgperson.schema
 include         /etc/ldap/schema/nis.schema
+include		      /etc/ldap/schema/openssh-lpk.schema
+include         /etc/ldap/schema/autofs.schema
 pidfile         /var/run/slapd/slapd.pid
 
 argsfile        /var/run/slapd/slapd.args
@@ -19,7 +21,7 @@ access to *
 access to attrs=userPassword
                 by self write
                 by anonymous auth
-                by dn.base="cn=Manager{{ openldap_server_dc }}" write
+                by dn.base="cn=Manager,{{ openldap_server_dc }}" write
                 by * none
 access to attrs=shadowLastChange
                 by self write

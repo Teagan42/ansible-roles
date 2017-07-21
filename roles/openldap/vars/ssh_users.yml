@@ -1,0 +1,24 @@
+---
+
+ssh_users:
+  ajanis:
+    password: "{{vault_ajanis_pw}}"
+    gecos: ajanis
+    cn: "Alan Janis"
+    uid: 1043
+    gid: 1042
+    state: present
+  tglenn:
+    password: "{{vault_tglenn_pw}}"
+    cn: "Teagan Glenn"
+    gecos: tglenn
+    uid: 1042
+    gid: 1042
+    state: present
+  media:
+    password: "{{vault_media_pw}}"
+    gecos: media
+    cn: "Media User"
+    uid: 2000
+    gid: 2000
+    state: present
