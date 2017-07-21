@@ -8,9 +8,9 @@ services:
   radarr:
     svc_port: 8183
     alias: rad
-#  couchpotato:
-#    svc_port: 8182 
-#    alias: couch
-#  plex:
-#    svc_port: 32400
-#    alias: plex
+  couchpotato:
+    svc_port: 8182 
+    alias: couch
+  plex:
+    svc_port: 32400
+    alias: plex

@@ -10,13 +10,6 @@
       - '{{ mediaserver_mounted_directory }}/configs/{{ docker_plex_container_name }}:/config'
       - '{{ mediaserver_mounted_directory }}:/media'
       - '{{ mediaserver_mounted_directory }}/transcode:/transcode'
-  #    ports: 
-  #      - '0.0.0.0:32400:32400'
-  #      - '0.0.0.0:32400:32400/udp'
-  #      - '0.0.0.0:32469:32469'
-  #      - '0.0.0.0:32469:32469/udp'
-  #      - '0.0.0.0:5353:5353/udp'
-  #      - '0.0.0.0:1900:1900/udp'
     net: host
     env:
       X_PLEX_TOKEN: '{{ plex_token }}'
