@@ -1,0 +1,5 @@
+- name: wipe mbr
+  shell: dd if=/dev/zero of=/dev/sda bs=8k count=100
+  when: reload_os=="true"
+  tags:
+    - reload_os

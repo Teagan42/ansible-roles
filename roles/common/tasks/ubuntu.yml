@@ -1,0 +1,22 @@
+- name: passwordless sudo
+  replace:
+    path: /etc/sudoers
+    regexp: '^%admin\s+ALL=\(ALL\)\s+ALL$'
+    replace: '%admin ALL=(ALL) NOPASSWD:ALL'
+    backup: yes
+    validate: 'visudo -cf %s'
+  tags:
+    - user_setup
+    - add_sudoers
+
+- name: install screen
+  apt:
+    name: screen
+    update_cache: yes
+        state: latest
+
+- name: custom MOTD
+  lineinfile:
+    dest: /etc/update-motd.d/00-header
+    line: 'Go Fuck Yourself'
+    state: absent

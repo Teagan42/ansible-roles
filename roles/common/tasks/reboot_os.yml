@@ -1,0 +1,7 @@
+- name: restart machine
+  command: shutdown -r now "Ansible Restart Called"
+  async: 0
+  poll: 0
+  ignore_errors: yes
+  tags:
+    - reboot

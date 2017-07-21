@@ -1,0 +1,12 @@
+- include: ubuntu.yml
+  when: ansible_distribution == 'Ubuntu'
+  tags:
+    - user_setup
+
+- include: centos.yml
+  when: ansible_distribution == 'CentOS'
+  tags:
+    - user_setup
+
+- include: sol.yml
+  when: ansible_virtualization_role == 'host'

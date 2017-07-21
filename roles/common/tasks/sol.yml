@@ -1,0 +1,56 @@
+- apt:
+    name: ipmitool
+    state: present
+
+- apt:
+    name: freeipmi-tools
+    state: present
+
+- modprobe:
+    name: ipmi_si
+    state: present
+    params: "type=kcs ports=0xCA2 regspacings=1"
+
+- modprobe:
+    name: ipmi_devintf
+    state: present
+
+- modprobe:
+    name: ipmi_msghandler
+    state: present
+
+- modprobe:
+    name: ipmi_poweroff
+    state: present
+
+- modprobe:
+    name: ipmi_watchdog
+    state: present
+
+- name: ttyS0 config
+  copy:
+    src: ttyS1.conf
+    dest: /etc/init/ttyS1.conf
+
+- name: grub linux
+  lineinfile:
+    dest: /etc/default/grub
+    state: present
+    regexp: '^GRUB_CMDLINE_LINUX=.*'
+    line: 'GRUB_CMDLINE_LINUX="console=tty1 console=ttyS1,115200n8"'
+
+- name: grub terminal
+  lineinfile:
+    dest: /etc/default/grub
+    state: present
+    regexp: '^#GRUB_TERMINAL=.*'
+    line: 'GRUB_TERMINAL="console serial"'
+
+- name: grub serial command
+  lineinfile:
+    dest: /etc/default/grub
+    state: present
+    line: 'GRUB_SERIAL_COMMAND="serial --speed=115200 --unit=0 --word=8 --parity=no --stop=1"'
+
+- name: update grub
+  shell: update-grub

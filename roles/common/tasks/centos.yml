@@ -1,0 +1,10 @@
+- name: passwordless sudo
+  replace:
+    dest: /etc/sudoers
+    regexp: '^%wheel.*$'
+    line: '%wheel ALL=(ALL) NOPASSWD:ALL'
+    backup: yes
+    validate: 'visudo -cf %s'
+  tags:
+    - user_setup
+    - add_sudoers
