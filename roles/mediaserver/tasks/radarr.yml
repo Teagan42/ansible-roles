@@ -9,7 +9,7 @@
       TZ: 'America/Denver'
     volumes:
       - '{{ mediaserver_mounted_directory }}/configs/{{ docker_radarr_container_name }}:/config'
-      - '{{ mediaserver_mounted_directory }}/{{ usenet_complete_download_directory}}:/downloads'
+      - '{{ mediaserver_mounted_directory }}/{{ usenet_complete_download_directory}}/movies:/downloads'
       - '{{ mediaserver_mounted_directory }}/movies:/movies'
     ports: '0.0.0.0:8183:7878'
     state: 'started'
