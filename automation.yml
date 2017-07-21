@@ -3,6 +3,7 @@
   user: tglenn
   become: True
   roles:
+    - common
     - nfs
     - docker
     - automation
