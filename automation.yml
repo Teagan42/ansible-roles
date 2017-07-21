@@ -2,6 +2,8 @@
   hosts: automationservers
   user: tglenn
   become: True
+  vars:
+    server: False
   roles:
     - common
     - nfs
