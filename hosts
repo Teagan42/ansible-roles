@@ -30,6 +30,15 @@
 
 # Ex 3: A coclection of database servers in the 'dbservers' group
 
+[common]
+10.0.10.108
+deepthought.int.teagantotally.rocks
+10.0.10.126
+ldap.int.teagantotally.rocks
+10.0.10.5
+jeltz.int.teagantotally.rocks
+10.0.10.128
+media.int.teagantotally.rocks
 
 [hypervisors]
 10.0.10.5
@@ -50,5 +59,13 @@ deepthought.int.teagantotally.rocks
 ldap.int.teagantotally.rocks
 
 [automationservers]
+10.0.10.108
+deepthought.int.teagantotally.rocks
+
+[ldapservers]
+10.0.10.126
+ldap.int.teagantotally.rocks
+
+[nfsservers]
 10.0.10.108
 deepthought.int.teagantotally.rocks
