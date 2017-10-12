@@ -5,14 +5,13 @@
     env:
       PUID: '0'
       PGID: '0'
+      X_PLEX_TOKEN: '{{ plex_token }}'
       VERSION: 'latest'
     volumes:
       - '{{ mediaserver_mounted_directory }}/configs/{{ docker_plex_container_name }}:/config'
       - '{{ mediaserver_mounted_directory }}:/media'
       - '{{ mediaserver_mounted_directory }}/transcode:/transcode'
     net: host
-    env:
-      X_PLEX_TOKEN: '{{ plex_token }}'
     state: 'started'
     restart_policy: 'always'
     log_driver: 'syslog'
