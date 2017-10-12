@@ -6,6 +6,7 @@
     force: yes
 
 - name: 'Start home-assistant docker container'
+  register: haStarted
   docker:
     name: "{{ docker_ha_container_name }}"
     image: homeassistant/home-assistant:latest
@@ -23,8 +24,8 @@
     log_opt:
       tag: "{{ docker_ha_container_name }}"
 
-  #- name: Install OpenCV in Docker Container
-  #  command: 'docker exec {{ docker_ha_container_name}} /bin/bash -l -c "pip3 install opencv-python"'
-  #  notify:
-  #    - Restart Home-Assistant
+- name: Install OpenCV
+  command: sudo docker exec -i home-assistant /bin/bash -c 'pip install opencv-python'
+  when: haStarted.changed
+  notify: Restart Home-Assistant
 
