@@ -15,6 +15,8 @@
       PUID: '0'
       PGID: '0'
       VERSION: 'latest'
+    devices:
+      - '/dev/ttyACM0:/dev/ttyACM0'
     volumes:
       - '{{ automation_mounted_directory }}/configs/{{ docker_ha_container_name }}:/config'
       - '/etc/localtime:/etc/localtime:ro'
